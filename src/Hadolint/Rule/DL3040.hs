@@ -27,8 +27,8 @@ dl3040 = simpleRule code severity message check
     checkMissingClean args cmdName =
       foldArguments (Shell.noCommands $ dnfInstall cmdName) args
         || Just True == (
-             (<) <$> foldArguments (Shell.findCommandIndex $ dnfInstall cmdName) args
-                 <*> foldArguments (Shell.findCommandIndex $ dnfClean cmdName) args)
+             (<) <$> foldArguments (Shell.findLastCommandIndex $ dnfInstall cmdName) args
+                 <*> foldArguments (Shell.findLastCommandIndex $ dnfClean cmdName) args)
 
     dnfInstall cmdName args = ( cmdName `elem` dnfCmds )
       && Shell.cmdHasArgs cmdName installCmds args

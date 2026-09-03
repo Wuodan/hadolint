@@ -85,6 +85,11 @@ spec = do
       onBuildRuleCatches "DL3040" "RUN dnf install -y bash && rm -rf /var/cache/yum/*"
       onBuildRuleCatchesNot "DL3040" "RUN rm -rf /foo/bar && dnf install -y bash && rm -rf /var/cache/libdnf5"
 
+    it "ignore dnf cleanup before dnf install" $ do
+      ruleCatchesNot "DL3040" "RUN dnf clean all && dnf install -y bash && dnf clean all"
+      ruleCatchesNot "DL3040" "RUN rm -rf /var/cache/libdnf5 && dnf install -y bash && dnf clean all"
+      ruleCatchesNot "DL3040" "RUN dnf clean all && dnf install -y bash && rm -rf /var/cache/libdnf5"
+
     it "different install command variants" $ do
       ruleCatches "DL3040" "RUN dnf -y install"
       ruleCatches "DL3040" "RUN dnf -y in"
